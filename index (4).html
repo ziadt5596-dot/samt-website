@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAMT — صمت · Egyptian Perfumery</title>
+<meta name="description" content="SAMT — Still Water. Egyptian Private Label Perfumery. Elegance is not luxury, it is a choice." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&family=Lora:wght@400;500&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --deep:   #151E21;
+    --abyss:  #1F2A2E;
+    --water:  #1A3540;
+    --teal:   #4A9BAF;
+    --teal-soft: #6FB5C7;
+    --frost:  #E8F2F5;
+    --mist:   #B8C9CE;
+    --whisper: rgba(232, 242, 245, 0.5);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--deep);
+    color: var(--frost);
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+  }
+
+  /* Atmospheric background — full brand color journey */
+  body::before{
+    content:'';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(74,155,175,0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(232,242,245,0.05) 0%, transparent 50%),
+      linear-gradient(180deg,
+        var(--deep)   0%,
+        var(--abyss)  20%,
+        #1A3540      42%,
+        #245468      62%,
+        #357A8E      80%,
+        #4A9BAF      100%);
+    z-index: -2;
+    pointer-events: none;
+    min-height: 100%;
+  }
+
+  /* Subtle grain texture */
+  body::after{
+    content:'';
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.91 0 0 0 0 0.95 0 0 0 0 0.96 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    z-index: -1;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  /* ===== NAV ===== */
+  nav{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(0px);
+  }
+  nav.scrolled{
+    backdrop-filter: blur(20px);
+    background: rgba(21, 30, 33, 0.75);
+    padding: 18px 48px;
+    border-bottom: 1px solid rgba(74, 155, 175, 0.1);
+  }
+
+  .nav-brand{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 22px;
+    letter-spacing: 0.5em;
+    color: var(--frost);
+  }
+
+  .nav-links{
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a{
+    color: var(--mist);
+    text-decoration: none;
+    font-family: 'Lora', serif;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a:hover{ color: var(--teal-soft); }
+  .nav-links a::after{
+    content: '';
+    position: absolute;
+    bottom: -6px; left: 0;
+    width: 0; height: 1px;
+    background: var(--teal);
+    transition: width 0.4s ease;
+  }
+  .nav-links a:hover::after{ width: 100%; }
+
+  /* ===== HERO ===== */
+  .hero{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 24px 80px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-arabic{
+    font-family: 'Scheherazade New', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    color: var(--teal-soft);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeInDown 1.2s ease 0.3s forwards;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-title{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 200;
+    font-size: clamp(72px, 14vw, 200px);
+    letter-spacing: 0.18em;
+    line-height: 0.95;
+    color: var(--frost);
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeInUp 1.4s ease 0.6s forwards;
+    position: relative;
+  }
+
+  /* The wave through SAMT — signature element */
+  .hero-title::after{
+    content: '';
+    position: absolute;
+    left: -8%; right: -8%;
+    top: 52%;
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--teal) 20%,
+      var(--teal-soft) 50%,
+      var(--teal) 80%,
+      transparent 100%);
+    opacity: 0.6;
+    transform: scaleX(0);
+    transform-origin: center;
+    animation: wavExpand 2s ease 1.4s forwards;
+  }
+
+  .hero-subtitle{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: var(--mist);
+    letter-spacing: 0.15em;
+    margin-bottom: 60px;
+    opacity: 0;
+    animation: fadeIn 1.4s ease 1.6s forwards;
+  }
+
+  .hero-tagline{
+    max-width: 540px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(18px, 2vw, 26px);
+    line-height: 1.5;
+    color: var(--frost);
+    opacity: 0;
+    animation: fadeIn 1.4s ease 2s forwards;
+  }
+
+  .hero-tagline .accent{
+    display: block;
+    margin-top: 8px;
+    color: var(--teal-soft);
+  }
+
+  .scroll-cue{
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--whisper);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 2s ease 2.6s forwards;
+  }
+  .scroll-cue::after{
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(180deg, var(--teal-soft), transparent);
+    margin: 14px auto 0;
+    animation: scrollDown 2s ease infinite;
+  }
+
+  /* ===== SECTIONS ===== */
+  section{
+    padding: 140px 48px;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-label{
+    font-family: 'Lora', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--teal-soft);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::before{
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  .section-title{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 200;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.1;
+    color: var(--frost);
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+  }
+  .section-title em{
+    font-style: italic;
+    font-weight: 300;
+    color: var(--teal-soft);
+  }
+
+  /* ===== PHILOSOPHY ===== */
+  .philosophy{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .philosophy-text p{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--mist);
+    margin-bottom: 20px;
+  }
+  .philosophy-text p em{
+    color: var(--frost);
+    font-style: italic;
+  }
+
+  .philosophy-visual{
+    aspect-ratio: 3/4;
+    background: linear-gradient(180deg, var(--water) 0%, var(--abyss) 100%);
+    border: 1px solid rgba(74, 155, 175, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* SVG Still Water visual */
+  .philosophy-visual::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(74,155,175,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 80%, rgba(74,155,175,0.15) 0%, transparent 50%);
+  }
+
+  .philosophy-visual::after{
+    content: 'صمت';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Scheherazade New', serif;
+    font-size: 140px;
+    color: var(--teal);
+    opacity: 0.25;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== COLLECTION ===== */
+  .collection-intro{
+    text-align: center;
+    margin-bottom: 100px;
+  }
+  .collection-intro .section-label{
+    justify-content: center;
+  }
+  .collection-intro .section-label::after{
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  .collection-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .perfume-card{
+    background: linear-gradient(180deg, var(--abyss) 0%, var(--deep) 100%);
+    border: 1px solid rgba(74, 155, 175, 0.12);
+    padding: 56px 40px 48px;
+    text-align: center;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .perfume-card::before{
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    transform: scaleX(0);
+    transition: transform 0.6s ease;
+  }
+
+  .perfume-card:hover{
+    transform: translateY(-8px);
+    border-color: rgba(74, 155, 175, 0.4);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
+  }
+
+  .perfume-card:hover::before{ transform: scaleX(1); }
+
+  .perfume-number{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--whisper);
+    letter-spacing: 0.3em;
+    margin-bottom: 32px;
+  }
+
+  .bottle-illustration{
+    width: 80px;
+    height: 120px;
+    margin: 0 auto 36px;
+    position: relative;
+  }
+
+  .bottle-svg{
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 10px 30px rgba(74, 155, 175, 0.15));
+    transition: transform 0.6s ease;
+  }
+
+  .perfume-card:hover .bottle-svg{
+    transform: translateY(-4px);
+  }
+
+  .perfume-name{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 42px;
+    letter-spacing: 0.3em;
+    color: var(--frost);
+    margin-bottom: 8px;
+  }
+
+  .perfume-arabic{
+    font-family: 'Scheherazade New', serif;
+    font-size: 26px;
+    color: var(--teal-soft);
+    margin-bottom: 32px;
+    letter-spacing: 0.05em;
+  }
+
+  .perfume-divider{
+    width: 24px;
+    height: 1px;
+    background: var(--teal);
+    margin: 0 auto 28px;
+    opacity: 0.5;
+  }
+
+  .perfume-notes{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--mist);
+    margin-bottom: 28px;
+  }
+
+  .perfume-mood{
+    font-family: 'Lora', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--teal-soft);
+    margin-bottom: 36px;
+  }
+
+  .order-btn{
+    display: inline-block;
+    padding: 14px 36px;
+    background: transparent;
+    border: 1px solid var(--teal);
+    color: var(--frost);
+    font-family: 'Lora', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .order-btn::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--teal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: -1;
+  }
+
+  .order-btn:hover{
+    color: var(--deep);
+    border-color: var(--teal-soft);
+  }
+  .order-btn:hover::before{
+    transform: scaleX(1);
+  }
+
+  /* ===== STORY ===== */
+  .story{
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 160px 24px;
+  }
+
+  .story-quote{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.5;
+    color: var(--frost);
+    margin-bottom: 40px;
+    letter-spacing: 0.01em;
+  }
+
+  .story-quote em{
+    color: var(--teal-soft);
+    font-style: italic;
+  }
+
+  .story-divider{
+    width: 60px;
+    height: 1px;
+    background: var(--teal);
+    margin: 0 auto 40px;
+    opacity: 0.5;
+  }
+
+  .story-attribution{
+    font-family: 'Lora', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+
+  /* ===== CTA / CONTACT ===== */
+  .contact{
+    text-align: center;
+    padding: 140px 48px;
+    background: rgba(21, 30, 33, 0.45);
+    backdrop-filter: blur(10px);
+    margin: 80px 0 0;
+    border-top: 1px solid rgba(232, 242, 245, 0.15);
+    border-bottom: 1px solid rgba(232, 242, 245, 0.15);
+  }
+
+  .contact-arabic{
+    font-family: 'Scheherazade New', serif;
+    font-size: 32px;
+    color: var(--teal-soft);
+    margin-bottom: 20px;
+  }
+
+  .contact h2{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 200;
+    font-size: clamp(40px, 5vw, 64px);
+    color: var(--frost);
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+
+  .contact p{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--mist);
+    margin-bottom: 48px;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .instagram-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 44px;
+    background: var(--teal);
+    color: var(--deep);
+    font-family: 'Lora', serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    border: 1px solid var(--teal);
+  }
+
+  .instagram-btn:hover{
+    background: transparent;
+    color: var(--teal-soft);
+  }
+
+  .instagram-btn svg{
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ===== FOOTER ===== */
+  footer{
+    padding: 60px 48px 40px;
+    text-align: center;
+  }
+
+  .footer-brand{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 200;
+    font-size: 28px;
+    letter-spacing: 0.4em;
+    color: var(--frost);
+    margin-bottom: 8px;
+  }
+
+  .footer-tagline{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--mist);
+    margin-bottom: 32px;
+    letter-spacing: 0.1em;
+  }
+
+  .footer-divider{
+    width: 40px;
+    height: 1px;
+    background: var(--teal);
+    margin: 0 auto 32px;
+    opacity: 0.4;
+  }
+
+  .footer-meta{
+    font-family: 'Lora', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--whisper);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeIn{
+    to{ opacity: 1; }
+  }
+  @keyframes fadeInUp{
+    from{ opacity: 0; transform: translateY(40px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInDown{
+    from{ opacity: 0; transform: translateY(-20px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  @keyframes wavExpand{
+    to{ transform: scaleX(1); }
+  }
+  @keyframes scrollDown{
+    0%{ transform: scaleY(0); transform-origin: top; }
+    50%{ transform: scaleY(1); transform-origin: top; }
+    51%{ transform: scaleY(1); transform-origin: bottom; }
+    100%{ transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  .reveal{
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .reveal.in-view{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px){
+    nav{ padding: 20px 24px; }
+    nav.scrolled{ padding: 14px 24px; }
+    .nav-links{ gap: 20px; }
+    .nav-links a{ font-size: 10px; letter-spacing: 0.2em; }
+
+    section{ padding: 80px 24px; }
+
+    .philosophy{
+      grid-template-columns: 1fr;
+      gap: 60px;
+    }
+    .philosophy-visual{
+      max-width: 400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .collection-grid{
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .contact{ padding: 80px 24px; }
+  }
+
+  @media (max-width: 540px){
+    .nav-links{ display: none; }
+    .hero-title{ letter-spacing: 0.12em; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav id="nav">
+  <div class="nav-brand">SAMT</div>
+  <ul class="nav-links">
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#contact">Order</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-arabic">صمت</div>
+  <h1 class="hero-title">SAMT</h1>
+  <div class="hero-subtitle">— STILL WATER —</div>
+  <p class="hero-tagline">
+    You don't have to speak for someone to hear you.
+    <span class="accent">From now on, your scent will speak for you.</span>
+  </p>
+  <div class="scroll-cue">Discover</div>
+</section>
+
+<!-- ===== PHILOSOPHY ===== -->
+<section id="philosophy">
+  <div class="philosophy">
+    <div class="philosophy-text reveal">
+      <div class="section-label">The Philosophy</div>
+      <h2 class="section-title">Elegance is not luxury.<br><em>It is a choice.</em></h2>
+      <p>
+        SAMT is born from the stillness of deep water — quiet on the surface, infinite beneath.
+      </p>
+      <p>
+        Every fragrance is composed with intention. <em>Nothing is random.</em> Nothing is loud. Yet everything is felt.
+      </p>
+      <p>
+        We believe in scent that arrives before you do — and stays after you've left the room.
+      </p>
+    </div>
+    <div class="philosophy-visual reveal"></div>
+  </div>
+</section>
+
+<!-- ===== COLLECTION ===== -->
+<section id="collection">
+  <div class="collection-intro reveal">
+    <div class="section-label">The Opening Collection</div>
+    <h2 class="section-title">Three Fragrances.<br><em>One Silence.</em></h2>
+  </div>
+
+  <div class="collection-grid">
+
+    <!-- DAHAB -->
+    <article class="perfume-card reveal">
+      <div class="perfume-number">— No. 01 —</div>
+      <div class="bottle-illustration">
+        <svg class="bottle-svg" viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="dahabGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C9A961" stop-opacity="0.4"/>
+              <stop offset="50%" stop-color="#A0763E" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#6B4A1E" stop-opacity="0.7"/>
+            </linearGradient>
+          </defs>
+          <rect x="32" y="6" width="16" height="14" fill="#4A9BAF" opacity="0.3" stroke="#4A9BAF" stroke-width="0.5"/>
+          <rect x="34" y="20" width="12" height="6" fill="#4A9BAF" opacity="0.5"/>
+          <path d="M 18 30 L 62 30 L 60 110 Q 60 116 54 116 L 26 116 Q 20 116 20 110 Z"
+                fill="url(#dahabGrad)" stroke="#4A9BAF" stroke-width="0.6" opacity="0.85"/>
+          <line x1="18" y1="30" x2="62" y2="30" stroke="#4A9BAF" stroke-width="0.4" opacity="0.5"/>
+        </svg>
+      </div>
+      <h3 class="perfume-name">DAHAB</h3>
+      <div class="perfume-arabic">ذهب</div>
+      <div class="perfume-divider"></div>
+      <p class="perfume-notes">
+        Saffron · Oud<br>
+        Rose · Amber<br>
+        Sandalwood
+      </p>
+      <div class="perfume-mood">Warm · Deep · Egyptian Soul</div>
+      <a href="https://instagram.com/samt.eg" class="order-btn" target="_blank" rel="noopener">Order on Instagram</a>
+    </article>
+
+    <!-- LAYL -->
+    <article class="perfume-card reveal">
+      <div class="perfume-number">— No. 02 —</div>
+      <div class="bottle-illustration">
+        <svg class="bottle-svg" viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="laylGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1F2A2E" stop-opacity="0.6"/>
+              <stop offset="50%" stop-color="#0F1518" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#000" stop-opacity="0.95"/>
+            </linearGradient>
+          </defs>
+          <rect x="32" y="6" width="16" height="14" fill="#4A9BAF" opacity="0.3" stroke="#4A9BAF" stroke-width="0.5"/>
+          <rect x="34" y="20" width="12" height="6" fill="#4A9BAF" opacity="0.5"/>
+          <path d="M 18 30 L 62 30 L 60 110 Q 60 116 54 116 L 26 116 Q 20 116 20 110 Z"
+                fill="url(#laylGrad)" stroke="#4A9BAF" stroke-width="0.6" opacity="0.9"/>
+          <line x1="18" y1="30" x2="62" y2="30" stroke="#4A9BAF" stroke-width="0.4" opacity="0.5"/>
+        </svg>
+      </div>
+      <h3 class="perfume-name">LAYL</h3>
+      <div class="perfume-arabic">ليل</div>
+      <div class="perfume-divider"></div>
+      <p class="perfume-notes">
+        Blackcurrant · Vetiver<br>
+        Dark Rose · Musk
+      </p>
+      <div class="perfume-mood">Mysterious · Still · Cairo Night</div>
+      <a href="https://instagram.com/samt.eg" class="order-btn" target="_blank" rel="noopener">Order on Instagram</a>
+    </article>
+
+    <!-- SABAH -->
+    <article class="perfume-card reveal">
+      <div class="perfume-number">— No. 03 —</div>
+      <div class="bottle-illustration">
+        <svg class="bottle-svg" viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sabahGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E8F2F5" stop-opacity="0.3"/>
+              <stop offset="50%" stop-color="#B8D4DC" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#6FB5C7" stop-opacity="0.5"/>
+            </linearGradient>
+          </defs>
+          <rect x="32" y="6" width="16" height="14" fill="#4A9BAF" opacity="0.3" stroke="#4A9BAF" stroke-width="0.5"/>
+          <rect x="34" y="20" width="12" height="6" fill="#4A9BAF" opacity="0.5"/>
+          <path d="M 18 30 L 62 30 L 60 110 Q 60 116 54 116 L 26 116 Q 20 116 20 110 Z"
+                fill="url(#sabahGrad)" stroke="#4A9BAF" stroke-width="0.6" opacity="0.85"/>
+          <line x1="18" y1="30" x2="62" y2="30" stroke="#4A9BAF" stroke-width="0.4" opacity="0.5"/>
+        </svg>
+      </div>
+      <h3 class="perfume-name">SABAH</h3>
+      <div class="perfume-arabic">صباح</div>
+      <div class="perfume-divider"></div>
+      <p class="perfume-notes">
+        Green Tea · Yuzu<br>
+        Jasmine · Cotton Musk
+      </p>
+      <div class="perfume-mood">Clean · Fresh · New Beginning</div>
+      <a href="https://instagram.com/samt.eg" class="order-btn" target="_blank" rel="noopener">Order on Instagram</a>
+    </article>
+
+  </div>
+</section>
+
+<!-- ===== STORY QUOTE ===== -->
+<section class="story reveal">
+  <p class="story-quote">
+    A scent that <em>arrives before you do</em> —<br>
+    and stays <em>after you've left</em>.
+  </p>
+  <div class="story-divider"></div>
+  <div class="story-attribution">— The SAMT Promise —</div>
+</section>
+
+<!-- ===== CONTACT / ORDER ===== -->
+<section id="contact" class="contact reveal">
+  <div class="contact-arabic">اطلب الآن</div>
+  <h2>Order Through<br>Instagram</h2>
+  <p>
+    Send us a direct message on Instagram. We'll guide you through your scent — and deliver across Egypt.
+  </p>
+  <a href="https://instagram.com/samt.eg" class="instagram-btn" target="_blank" rel="noopener">
+    <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+    @samt.eg
+  </a>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-brand">SAMT · صمت</div>
+  <div class="footer-tagline"><em>Still Water · Egyptian Perfumery</em></div>
+  <div class="footer-divider"></div>
+  <div class="footer-meta">© 2026 SAMT — All Rights Reserved · Cairo, Egypt</div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
